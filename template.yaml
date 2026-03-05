@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/aws/serverless-application-model/main/samtranslator/schema/schema.json
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: RetailMind AI Backend
+
+Globals:
+  Function:
+    Runtime: nodejs20.x
+    MemorySize: 1024
+    Timeout: 30
+
+Resources:
+
+  RetailMindApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+
+  RetailMindFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: retailmind-ai-backend
+      CodeUri: lambda/
+      Handler: lambda.handler
+
+      Events:
+
+        RootEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref RetailMindApi
+            Path: /
+            Method: ANY
+
+        ApiEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref RetailMindApi
+            Path: /{proxy+}
+            Method: ANY
+
+      Environment:
+        Variables:
+          JWT_SECRET: ""
+          GROQ_API_KEY: ""
+          GOOGLE_API_KEY: ""
+          SERP_API_KEY: ""
+          DYNAMODB_PREFIX: RetailIQ_
+          AWS_S3_BUCKET_NAME: retailmind-ai-uploads-579707562405
+          EMAIL_USER: logiclegends2026@gmail.com
+          EMAIL_PASS: vpfx rsio qcop usej
+          GOOGLE_GENERATIVE_AI_API_KEY: ""
+
+
+Outputs:
+  RetailMindAPIEndpoint:
+    Description: API Gateway endpoint URL
+    Value: !Sub "https://${RetailMindApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"

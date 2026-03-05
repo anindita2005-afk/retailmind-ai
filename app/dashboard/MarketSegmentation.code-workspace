@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../../../MarketSegmentation"
+		},
+		{
+			"path": "../../../MLProject-ChurnPrediction"
+		},
+		{
+			"path": "../../../Quality-Dashboard"
+		},
+		{
+			"path": "../../../Sales-Analysis"
+		},
+		{
+			"path": "../.."
+		}
+	]
+}
