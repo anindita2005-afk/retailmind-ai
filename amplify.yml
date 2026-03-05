@@ -2,20 +2,22 @@ version: 1
 frontend:
   phases:
     preBuild:
-      commands:
-        - nvm install 20
-        - nvm use 20
-        - npm install -g pnpm
-        - pnpm install
+      commands:[
+         nvm install 20,
+         nvm use 20,
+         npm install -g pnpm,
+         pnpm install
+      ]
     build:
-      commands:
-        env | grep -e NEXT_PUBLIC_ >> .env.production || true
-        - pnpm run build
+      commands:[
+         pnpm run build
+      ]
   artifacts:
     baseDirectory: .next
     files:
       - '**/*'
   cache:
-    paths:
-      - node_modules/**/*
-      - .next/cache/**/*
+    paths:[
+       node_modules/**/*
+       .next/cache/**/*
+    ]
