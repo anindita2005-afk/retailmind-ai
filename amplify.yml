@@ -7,7 +7,7 @@ frontend:
         - pnpm install
     build:
       commands:
-        - env | grep -E 'MY_AWS_|NEXT_PUBLIC_|JWT_SECRET|GROQ_API_KEY|GEMINI_API_KEY|GOOGLE_API_KEY|SERP_API_KEY|PUTER_AUTH_TOKEN|CLAUDE_API_KEY|DYNAMODB_PREFIX' >> .env.production
+        - env | grep -E 'MY_AWS_|NEXT_PUBLIC_|JWT_SECRET|GROQ_API_KEY|GEMINI_API_KEY|GOOGLE_API_KEY|SERP_API_KEY|PUTER_AUTH_TOKEN|CLAUDE_API_KEY|DYNAMODB_PREFIX|EMAIL_' >> .env.production
         - pnpm run build
   artifacts:
     baseDirectory: .next
