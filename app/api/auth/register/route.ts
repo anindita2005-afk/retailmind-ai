@@ -91,14 +91,14 @@ export async function POST(req: Request) {
         }
       }));
 
-      await createSession({
+      const token = await createSession({
         id: userId,
         email: emailFormatted,
         display_id: display_id,
         business_name: business_name.trim(),
       })
 
-      return NextResponse.json({ success: true, display_id }, { status: 201 })
+      return NextResponse.json({ success: true, display_id, token }, { status: 201 })
     }
 
     return NextResponse.json({ error: "Invalid Auth Step" }, { status: 400 });

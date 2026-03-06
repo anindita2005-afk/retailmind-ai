@@ -154,6 +154,7 @@ export default function RegisterCard() {
         if (!res.ok) {
           setError(data.error || "OTP Verification failed")
         } else {
+          document.cookie = `retailiq_session=${data.token}; path=/; max-age=604800; samesite=lax`;
           setSuccessId(data.display_id)
         }
       } catch {

@@ -2,13 +2,16 @@ import { S3Client, PutObjectCommand, DeleteObjectCommand, HeadObjectCommand } fr
 import { v4 as uuidv4 } from "uuid"
 
 // Requirement 1 & 2: Reusable S3 configuration using AWS SDK v3 and environment variables
-const s3Client = new S3Client({
+const config: any = {
     region: process.env.MY_AWS_REGION || "us-east-1",
-    credentials: {
-        accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID || "",
-        secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY || "",
-    }
-})
+};
+if (process.env.MY_AWS_ACCESS_KEY_ID && process.env.MY_AWS_SECRET_ACCESS_KEY) {
+    config.credentials = {
+        accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY,
+    };
+}
+const s3Client = new S3Client(config)
 
 const BUCKET_NAME = process.env.MY_AWS_S3_BUCKET_NAME || ""
 

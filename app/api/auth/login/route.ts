@@ -71,14 +71,14 @@ export async function POST(req: Request) {
 
       const business_name = profileQuery.Item?.business_name || "Business";
 
-      await createSession({
+      const token = await createSession({
         id: user.id,
         email: user.email,
         display_id: user.display_id || "RIQ-0000",
         business_name: business_name,
       })
 
-      return NextResponse.json({ success: true })
+      return NextResponse.json({ success: true, token })
     }
 
     return NextResponse.json({ error: "Invalid Auth Step" }, { status: 400 });

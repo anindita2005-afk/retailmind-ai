@@ -4,13 +4,16 @@ import { db, TABLE_PREFIX } from "@/lib/dynamodb"
 import { UpdateCommand } from "@aws-sdk/lib-dynamodb"
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"
 
-const s3Client = new S3Client({
-    region: process.env.MY_AWS_REGION || "ap-south-1",
-    credentials: {
-        accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID || "",
-        secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY || "",
-    }
-});
+const config: any = {
+    region: process.env.MY_AWS_REGION || "us-east-1",
+};
+if (process.env.MY_AWS_ACCESS_KEY_ID && process.env.MY_AWS_SECRET_ACCESS_KEY) {
+    config.credentials = {
+        accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY,
+    };
+}
+const s3Client = new S3Client(config);
 
 const S3_BUCKET = process.env.S3_BUCKET_NAME || "retailmind-ai-uploads-579707562405";
 
@@ -47,7 +50,7 @@ export async function POST(req: NextRequest) {
             ContentType: file.type,
         }));
 
-        const logoUrl = `https://${S3_BUCKET}.s3.${process.env.MY_AWS_REGION || "ap-south-1"}.amazonaws.com/logos/${filename}`
+        const logoUrl = `https://${S3_BUCKET}.s3.${process.env.MY_AWS_REGION || "us-east-1"}.amazonaws.com/logos/${filename}`
 
         await db.send(new UpdateCommand({
             TableName: `${TABLE_PREFIX}BusinessProfiles`,

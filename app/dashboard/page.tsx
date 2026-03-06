@@ -11,38 +11,53 @@ export default async function DashboardPage() {
 
   const uid = session.id
 
-  const [
-    productsRes,
-    billsRes,
-    analysesRes,
-    profileRes
-  ] = await Promise.all([
-    db.send(new QueryCommand({ TableName: `${TABLE_PREFIX}Products`, KeyConditionExpression: "user_id = :u", ExpressionAttributeValues: { ":u": uid } })),
-    db.send(new QueryCommand({ TableName: `${TABLE_PREFIX}Bills`, KeyConditionExpression: "user_id = :u", ExpressionAttributeValues: { ":u": uid } })),
-    db.send(new QueryCommand({ TableName: `${TABLE_PREFIX}MarketAnalyses`, KeyConditionExpression: "user_id = :u", ExpressionAttributeValues: { ":u": uid } })),
-    db.send(new GetCommand({ TableName: `${TABLE_PREFIX}BusinessProfiles`, Key: { user_id: uid } }))
-  ]);
+  let productsRes, billsRes, analysesRes, profileRes;
+  try {
+    [productsRes, billsRes, analysesRes, profileRes] = await Promise.all([
+      db.send(new QueryCommand({ TableName: `${TABLE_PREFIX}Products`, KeyConditionExpression: "user_id = :u", ExpressionAttributeValues: { ":u": uid } })),
+      db.send(new QueryCommand({ TableName: `${TABLE_PREFIX}Bills`, KeyConditionExpression: "user_id = :u", ExpressionAttributeValues: { ":u": uid } })),
+      db.send(new QueryCommand({ TableName: `${TABLE_PREFIX}MarketAnalyses`, KeyConditionExpression: "user_id = :u", ExpressionAttributeValues: { ":u": uid } })),
+      db.send(new GetCommand({ TableName: `${TABLE_PREFIX}BusinessProfiles`, Key: { user_id: uid } }))
+    ]);
+  } catch (err: any) {
+    console.error("Dashboard DDB Error:", err);
+    return (
+      <div className="flex-1 overflow-auto p-8 bg-zinc-950 text-red-400 font-mono text-sm leading-relaxed">
+        <h1 className="text-xl font-bold text-red-500 mb-4">Database Connection Failed</h1>
+        <p className="mb-4">
+          The Next.js server components could not securely access DynamoDB. If you deployed to AWS Amplify, you must provide your AWS credentials (MY_AWS_ACCESS_KEY_ID, MY_AWS_SECRET_ACCESS_KEY) as Environment Variables in the Amplify Console.
+        </p>
+        <div className="bg-zinc-900 p-4 rounded-lg overflow-x-auto whitespace-pre-wrap border border-red-900/50">
+          {err.name}: {err.message}
+        </div>
+      </div>
+    );
+  }
 
   const products = productsRes.Items || [];
   const bills = billsRes.Items || [];
 
-  // Fetch all bill items
+  // Fetch all bill items safely
   let allBillItems: any[] = [];
 
-  for (const bill of bills) {
-    const itemsRes = await db.send(new QueryCommand({
-      TableName: `${TABLE_PREFIX}BillItems`,
-      KeyConditionExpression: "bill_id = :b",
-      ExpressionAttributeValues: { ":b": bill.id }
-    }));
+  try {
+    for (const bill of bills) {
+      const itemsRes = await db.send(new QueryCommand({
+        TableName: `${TABLE_PREFIX}BillItems`,
+        KeyConditionExpression: "bill_id = :b",
+        ExpressionAttributeValues: { ":b": bill.id }
+      }));
 
-    const items = (itemsRes.Items || []).map(i => ({
-      ...i,
-      bill_status: bill.status,
-      bill_date: bill.created_at
-    }));
+      const items = (itemsRes.Items || []).map(i => ({
+        ...i,
+        bill_status: bill.status,
+        bill_date: bill.created_at
+      }));
 
-    allBillItems = allBillItems.concat(items);
+      allBillItems = allBillItems.concat(items);
+    }
+  } catch (err: any) {
+    console.error("Dashboard BillItems DDB Error:", err);
   }
 
   const analyses = analysesRes.Items || [];
@@ -53,7 +68,7 @@ export default async function DashboardPage() {
   const lowStock = lowStockProducts.length;
 
   const paidBills = bills.filter((b) => b.status === "paid")
-  const revenue = paidBills.reduce((s, b) => s + Number(b.total ?? 0), 0)
+  const revenue = paidBills.reduce((s, b) => s + (Number(b.total) || 0), 0)
 
   // Total Profit (paid bills only, ignore GST)
   const totalProfit = allBillItems
@@ -70,11 +85,11 @@ export default async function DashboardPage() {
     }, 0);
 
   const today = new Date().toISOString().split('T')[0];
-  const todayBillsList = bills.filter(b => b.created_at?.startsWith(today) || b.bill_date?.startsWith(today));
+  const todayBillsList = bills.filter(b => String(b.created_at || "").startsWith(today) || String(b.bill_date || "").startsWith(today));
   const todayPaidBills = todayBillsList.filter(b => b.status === "paid");
-  const todayRevenue = todayPaidBills.reduce((s, b) => s + Number(b.total ?? 0), 0)
+  const todayRevenue = todayPaidBills.reduce((s, b) => s + (Number(b.total) || 0), 0)
 
-  const sortedBills = [...bills].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  const sortedBills = [...bills].sort((a, b) => (new Date(b.created_at).getTime() || 0) - (new Date(a.created_at).getTime() || 0));
   const recentBills = sortedBills.slice(0, 5);
   const lowStockItems = [...lowStockProducts].sort((a, b) => (Number(a.stock_qty) || 0) - (Number(b.stock_qty) || 0)).slice(0, 5);
 
@@ -99,7 +114,7 @@ export default async function DashboardPage() {
       const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
       if (monthlyMap[key]) {
         monthlyMap[key].bills++;
-        if (b.status === "paid") monthlyMap[key].revenue += Number(b.total || 0);
+        if (b.status === "paid") monthlyMap[key].revenue += (Number(b.total) || 0);
       }
     }
   });
@@ -142,13 +157,17 @@ export default async function DashboardPage() {
     businessName: String(profile?.business_name ?? session.business_name ?? "Your Business"),
     displayId: String(session.display_id ?? "RIQ-0000"),
     gstNumber: String(profile?.gst_number ?? ""),
-    recentBills: recentBills.map((b) => ({
-      id: String(b.id).split('-')[0].substring(0, 8),
-      customer: String(b.customer_name),
-      total: Number(b.total),
-      status: String(b.status),
-      date: new Date(b.created_at as string).toLocaleDateString("en-IN", { day: "2-digit", month: "short" }),
-    })),
+    recentBills: recentBills.map((b) => {
+      const d = new Date(b.created_at as string);
+      const safeDate = isNaN(d.getTime()) ? "N/A" : d.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+      return {
+        id: String(b.id).split('-')[0].substring(0, 8),
+        customer: String(b.customer_name),
+        total: Number(b.total),
+        status: String(b.status),
+        date: safeDate,
+      };
+    }),
     lowStockItems: lowStockItems.map((p) => ({
       name: String(p.name),
       stock: Number(p.stock_qty),

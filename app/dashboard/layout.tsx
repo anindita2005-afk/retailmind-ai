@@ -8,19 +8,28 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const session = await getSession()
   if (!session) redirect("/login")
 
-  const profileRes = await db.send(new GetCommand({
-    TableName: `${TABLE_PREFIX}BusinessProfiles`,
-    Key: { user_id: session.id }
-  }));
-  const profile = profileRes.Item;
+  let profile = null;
+  let user = null;
+  let dbError = null;
 
-  const userRes = await db.send(new GetCommand({
-    TableName: `${TABLE_PREFIX}Users`,
-    Key: { id: session.id }
-  }));
-  const user = userRes.Item;
+  try {
+    const profileRes = await db.send(new GetCommand({
+      TableName: `${TABLE_PREFIX}BusinessProfiles`,
+      Key: { user_id: session.id }
+    }));
+    profile = profileRes.Item;
 
-  const businessName = profile?.business_name ?? session.email
+    const userRes = await db.send(new GetCommand({
+      TableName: `${TABLE_PREFIX}Users`,
+      Key: { id: session.id }
+    }));
+    user = userRes.Item;
+  } catch (err: any) {
+    console.error("Layout DDB Error:", err);
+    dbError = err.message;
+  }
+
+  const businessName = profile?.business_name ?? session.business_name ?? session.email ?? "Unknown"
   const displayId = user?.display_id ?? session.display_id ?? "RIQ-0000"
   const logoUrl = profile?.logo_url ?? null
 

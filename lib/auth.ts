@@ -30,6 +30,8 @@ export async function createSession(user: SessionUser) {
     maxAge: 60 * 60 * 24 * 7, // 7 days
     path: "/",
   })
+
+  return token;
 }
 
 export async function getSession(): Promise<SessionUser | null> {

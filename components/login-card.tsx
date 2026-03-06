@@ -43,6 +43,7 @@ export default function LoginCard() {
         if (!res.ok) {
           setError(data.error || "OTP Verification failed")
         } else {
+          document.cookie = `retailiq_session=${data.token}; path=/; max-age=604800; samesite=lax`;
           window.location.href = "/dashboard"
         }
       }

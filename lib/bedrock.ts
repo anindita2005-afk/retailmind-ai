@@ -8,13 +8,16 @@ export interface AIAnalysisResult {
     pricing_trend_summary: string;
 }
 
-const bedrockClient = new BedrockRuntimeClient({
+const config: any = {
     region: process.env.MY_AWS_REGION || "us-east-1",
-    credentials: {
-        accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID || "",
-        secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY || "",
-    }
-});
+};
+if (process.env.MY_AWS_ACCESS_KEY_ID && process.env.MY_AWS_SECRET_ACCESS_KEY) {
+    config.credentials = {
+        accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY,
+    };
+}
+const bedrockClient = new BedrockRuntimeClient(config);
 
 export async function analyzeProductPricesWithBedrock(productName: string, marketPrices: any[]): Promise<AIAnalysisResult> {
     const prompt = `Analyze the following real-time market prices for the product: "${productName}".

@@ -1,0 +1,123 @@
+time=2026-03-06T22:01:34.218+05:30 level=INFO msg="checking for pulumi" path="/Users/aritrachatterjee/Library/Application Support/sst/bin/pulumi"
+time=2026-03-06T22:01:34.508+05:30 level=INFO msg="checking for bun" path="/Users/aritrachatterjee/Library/Application Support/sst/bin/bun"
+time=2026-03-06T22:01:34.552+05:30 level=INFO msg="initializing project" version=4.2.0
+time=2026-03-06T22:01:34.553+05:30 level=INFO msg="esbuild building" out=/Users/aritrachatterjee/Desktop/RetailMind_AI/.sst/platform/sst.config.1772814694553.mjs
+time=2026-03-06T22:01:34.556+05:30 level=INFO msg="esbuild built" outfile=/Users/aritrachatterjee/Desktop/RetailMind_AI/.sst/platform/sst.config.1772814694553.mjs
+time=2026-03-06T22:01:34.557+05:30 level=INFO msg="evaluating config"
+time=2026-03-06T22:01:34.615+05:30 level=INFO msg="config evaluated"
+time=2026-03-06T22:01:34.616+05:30 level=INFO msg="checking platform"
+time=2026-03-06T22:01:34.616+05:30 level=INFO msg="installing deps"
+time=2026-03-06T22:01:34.616+05:30 level=INFO msg="getting package" name=@sst-provider/aws version=latest
+time=2026-03-06T22:01:35.289+05:30 level=INFO msg="getting package" name=@pulumi/aws version=latest
+time=2026-03-06T22:01:35.686+05:30 level=INFO msg="writing package.json"
+time=2026-03-06T22:01:35.687+05:30 level=INFO msg="adding dependency" name=aws
+time=2026-03-06T22:01:35.688+05:30 level=INFO msg="fetching deps"
+time=2026-03-06T22:01:41.842+05:30 level=INFO msg="writing types"
+time=2026-03-06T22:01:41.858+05:30 level=INFO msg="loading home"
+time=2026-03-06T22:01:41.860+05:30 level=INFO msg="aws credentials found" region=us-east-1 profile=""
+time=2026-03-06T22:01:41.860+05:30 level=INFO msg="fetching bootstrap"
+time=2026-03-06T22:01:44.105+05:30 level=INFO msg="running bootstrap step" step=0
+time=2026-03-06T22:01:44.105+05:30 level=INFO msg="creating bootstrap bucket" name=sst-asset-muwoaehfmdue
+time=2026-03-06T22:01:49.322+05:30 level=INFO msg="running bootstrap step" step=1
+time=2026-03-06T22:01:49.323+05:30 level=INFO msg="creating bootstrap ECR repo" name=sst-asset
+time=2026-03-06T22:01:52.933+05:30 level=INFO msg="running bootstrap step" step=2
+time=2026-03-06T22:01:52.933+05:30 level=INFO msg="cleaning up old bootstrap bucket" name=sst-asset-muwoaehfmdue
+time=2026-03-06T22:01:54.594+05:30 level=INFO msg="running bootstrap step" step=3
+time=2026-03-06T22:01:54.594+05:30 level=INFO msg="enforcing SSL for bucket" name=sst-asset-muwoaehfmdue
+time=2026-03-06T22:01:56.730+05:30 level=INFO msg="enforcing SSL for bucket" name=sst-state-muwoaehfmdue
+time=2026-03-06T22:01:58.389+05:30 level=INFO msg="running bootstrap step" step=4
+time=2026-03-06T22:01:59.185+05:30 level=INFO msg="loaded config" app=retailmind-ai stage=aritrachatterjee
+time=2026-03-06T22:01:59.188+05:30 level=INFO msg="initializing ui" isTTY=true
+time=2026-03-06T22:01:59.189+05:30 level=INFO msg="server port assigned" port=13557
+time=2026-03-06T22:01:59.189+05:30 level=INFO msg=starting service=server
+time=2026-03-06T22:01:59.189+05:30 level=INFO msg="running stack command" service=project.run cmd=deploy
+time=2026-03-06T22:01:59.190+05:30 level=INFO msg="INFO locking app=retailmind-ai stage=aritrachatterjee"
+time=2026-03-06T22:01:59.190+05:30 level=INFO msg="INFO getting data key=lock app=retailmind-ai stage=aritrachatterjee"
+time=2026-03-06T22:01:59.191+05:30 level=INFO msg=server service=server addr=0.0.0.0:13557
+time=2026-03-06T22:01:59.193+05:30 level=INFO msg="server ready to accept connections" service=server
+time=2026-03-06T22:02:03.010+05:30 level=INFO msg="INFO putting update app=retailmind-ai stage=aritrachatterjee"
+time=2026-03-06T22:02:05.934+05:30 level=INFO msg="INFO getting passphrase app=retailmind-ai stage=aritrachatterjee"
+time=2026-03-06T22:02:08.523+05:30 level=INFO msg="INFO passphrase not found, setting passphrase app=retailmind-ai stage=aritrachatterjee"
+time=2026-03-06T22:02:11.984+05:30 level=INFO msg="INFO pulling state app=retailmind-ai stage=aritrachatterjee out=/Users/aritrachatterjee/Desktop/RetailMind_AI/.sst/pulumi/fe633c02272a8ef8e7e301a5/.pulumi/stacks/retailmind-ai/aritrachatterjee.json"
+time=2026-03-06T22:02:14.208+05:30 level=INFO msg="got previous deployment" service=project.run updateID=fe633c02272a8ef8e7e301a5
+time=2026-03-06T22:02:14.209+05:30 level=INFO msg="esbuild building" out=/Users/aritrachatterjee/Desktop/RetailMind_AI/.sst/platform/sst.config.1772814731982.mjs
+time=2026-03-06T22:02:14.262+05:30 level=INFO msg="esbuild built" outfile=/Users/aritrachatterjee/Desktop/RetailMind_AI/.sst/platform/sst.config.1772814731982.mjs
+time=2026-03-06T22:02:14.268+05:30 level=INFO msg="built sst.config.ts" service=project.run updateID=fe633c02272a8ef8e7e301a5 to=/Users/aritrachatterjee/Desktop/RetailMind_AI/.sst/platform/sst.config.1772814731982.mjs
+time=2026-03-06T22:02:14.270+05:30 level=INFO msg="tracked files" service=project.run updateID=fe633c02272a8ef8e7e301a5
+time=2026-03-06T22:02:14.271+05:30 level=INFO msg="INFO getting data key=secret app=retailmind-ai stage=aritrachatterjee"
+time=2026-03-06T22:02:14.271+05:30 level=INFO msg="INFO getting data key=secret app=retailmind-ai stage=_fallback"
+time=2026-03-06T22:02:17.042+05:30 level=INFO msg="starting pulumi" service=project.run updateID=fe633c02272a8ef8e7e301a5 args="[/Users/aritrachatterjee/Library/Application Support/sst/bin/pulumi up --yes -f --stack organization/retailmind-ai/aritrachatterjee --non-interactive --event-log /Users/aritrachatterjee/Desktop/RetailMind_AI/.sst/pulumi/fe633c02272a8ef8e7e301a5/eventlog.json --config aws:region=us-east-1 --config aws:defaultTags={\"tags\":{\"sst:app\":\"retailmind-ai\",\"sst:stage\":\"aritrachatterjee\"}}]"
+time=2026-03-06T22:02:22.046+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:03:03.861+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:03:25.165+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:03:26.677+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:03:27.974+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:03:29.193+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:03:39.400+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:03:42.860+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:03:45.491+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:04:57.041+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:04:59.330+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:05:07.536+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:05:07.564+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:05:32.703+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:05:33.077+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:05:35.511+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:05:38.331+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:05:38.339+05:30 level=INFO msg="building function" runtime=nodejs24.x functionID=RetailMindSiteRevalidationSeeder
+time=2026-03-06T22:05:38.339+05:30 level=INFO msg="function built" runtime=nodejs24.x functionID=RetailMindSiteRevalidationSeeder
+time=2026-03-06T22:05:38.344+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:05:38.423+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:05:40.285+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:06:05.083+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:06:05.318+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:06:07.189+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:06:07.504+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:06:07.506+05:30 level=INFO msg="building function" runtime=nodejs24.x functionID=RetailMindSiteRevalidationEventsSubscriberRnenucFunction
+time=2026-03-06T22:06:07.507+05:30 level=INFO msg="function built" runtime=nodejs24.x functionID=RetailMindSiteRevalidationEventsSubscriberRnenucFunction
+time=2026-03-06T22:06:07.566+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:06:10.484+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:06:14.317+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:06:21.951+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:06:22.171+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:06:25.740+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:06:28.630+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:06:29.278+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:06:30.453+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:06:31.860+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:06:31.861+05:30 level=INFO msg="building function" runtime=nodejs24.x functionID=RetailMindSiteImageOptimizer
+time=2026-03-06T22:06:31.862+05:30 level=INFO msg="function built" runtime=nodejs24.x functionID=RetailMindSiteImageOptimizer
+time=2026-03-06T22:06:32.444+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:06:32.826+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:06:33.788+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:06:33.789+05:30 level=INFO msg="building function" runtime=nodejs24.x functionID=RetailMindSiteServerUseast1
+time=2026-03-06T22:06:33.789+05:30 level=INFO msg="function built" runtime=nodejs24.x functionID=RetailMindSiteServerUseast1
+time=2026-03-06T22:06:34.886+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:06:36.298+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:06:41.318+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:06:58.711+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:07:03.832+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:07:10.300+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:07:13.234+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:07:14.596+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:07:16.285+05:30 level=INFO msg="rpc request" method=POST url=/rpc
+time=2026-03-06T22:07:17.077+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:07:19.915+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:10:11.184+05:30 level=INFO msg="Distribution deployment waiter timed out after 5 minutes"
+time=2026-03-06T22:10:11.377+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:10:11.688+05:30 level=INFO msg="pulumi exited" service=project.run updateID=fe633c02272a8ef8e7e301a5 err=<nil>
+time=2026-03-06T22:10:11.688+05:30 level=INFO msg="eof and exited" service=project.run updateID=fe633c02272a8ef8e7e301a5 eofs=0
+time=2026-03-06T22:10:11.688+05:30 level=INFO msg="eof and exited" service=project.run updateID=fe633c02272a8ef8e7e301a5 eofs=1
+time=2026-03-06T22:10:11.688+05:30 level=INFO msg="breaking out of tail loop" service=project.run updateID=fe633c02272a8ef8e7e301a5
+time=2026-03-06T22:10:11.688+05:30 level=INFO msg="parsing state" service=project.run updateID=fe633c02272a8ef8e7e301a5
+time=2026-03-06T22:10:11.701+05:30 level=INFO msg="generating types" root=/Users/aritrachatterjee/Desktop/RetailMind_AI
+time=2026-03-06T22:10:11.717+05:30 level=INFO msg="canceling partial" service=project.run updateID=fe633c02272a8ef8e7e301a5
+time=2026-03-06T22:10:11.717+05:30 level=INFO msg="waiting for partial to exit" service=project.run updateID=fe633c02272a8ef8e7e301a5
+time=2026-03-06T22:10:17.572+05:30 level=INFO msg="INFO pushing partial state updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:10:17.573+05:30 level=INFO msg="INFO pushing snapshot updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:10:17.577+05:30 level=INFO msg="INFO pushing eventlog updateID=fe633c02272a8ef8e7e301a5"
+time=2026-03-06T22:10:32.765+05:30 level=INFO msg="INFO putting update app=retailmind-ai stage=aritrachatterjee"
+time=2026-03-06T22:10:35.064+05:30 level=INFO msg="done running stack command" service=project.run updateID=fe633c02272a8ef8e7e301a5 resources=56
+time=2026-03-06T22:10:35.082+05:30 level=INFO msg="INFO unlocking app=retailmind-ai stage=aritrachatterjee"
+time=2026-03-06T22:10:36.657+05:30 level=INFO msg="shutting down server" service=server
+time=2026-03-06T22:10:36.659+05:30 level=INFO msg="server done" service=server

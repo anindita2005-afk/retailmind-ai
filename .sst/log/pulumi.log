@@ -1,0 +1,316 @@
+Updating (aritrachatterjee):
+@ updating.......
+Downloading plugin tls-5.0.1: starting
+Downloading plugin vercel-4.6.0: starting
+Downloading plugin cloudflare-6.13.0: starting
+Downloading plugin command-1.0.1: starting
+Downloading plugin docker-build-0.0.14: starting
+Downloading plugin aws-7.20.0: starting
+Downloading plugin random-4.16.6: starting
+@ updating........
+Downloading plugin vercel-4.6.0: done
+Downloading plugin command-1.0.1: done
+Installing plugin vercel-4.6.0: starting
+Installing plugin command-1.0.1: starting
+@ updating....
+Installing plugin command-1.0.1: done
+Installing plugin vercel-4.6.0: done
+Downloading plugin tls-5.0.1: done
+Installing plugin tls-5.0.1: starting
+Installing plugin tls-5.0.1: done
+Downloading plugin docker-build-0.0.14: done
+Installing plugin docker-build-0.0.14: starting
+@ updating....
+Downloading plugin random-4.16.6: done
+Installing plugin random-4.16.6: starting
+Installing plugin docker-build-0.0.14: done
+Installing plugin random-4.16.6: done
+@ updating........
+Downloading plugin cloudflare-6.13.0: done
+Installing plugin cloudflare-6.13.0: starting
+@ updating....
+Installing plugin cloudflare-6.13.0: done
+@ updating......................
+Downloading plugin aws-7.20.0: done
+Installing plugin aws-7.20.0: starting
+@ updating......
+Installing plugin aws-7.20.0: done
+
+@ updating....
+ +  pulumi:pulumi:Stack retailmind-ai-aritrachatterjee creating (0s) 
+@ updating.....
+ +  pulumi:pulumi:Stack retailmind-ai-aritrachatterjee creating (2s) (node:31206) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+ +  pulumi:pulumi:Stack retailmind-ai-aritrachatterjee creating (2s) (Use `node --trace-warnings ...` to show where the warning was created)
+ +  sst:aws:Nextjs RetailMindSite creating (0s) 
+@ updating..........................
+ +  sst:aws:Bucket RetailMindSiteAssets creating (0s) 
+ +  sst:aws:CDN RetailMindSiteCdn creating (0s) 
+@ updating.....
+ +  aws:cloudfront:KeyValueStore RetailMindSiteKvStore creating (0s) 
+ +  aws:cloudfront:CachePolicy RetailMindSiteServerCachePolicy creating (0s) 
+ +  aws:s3:Bucket RetailMindSiteAssetsBucket creating (0s) 
+@ updating....
+ +  command:local:Command RetailMindSiteBuilder creating (0s) 
+@ updating....
+ +  aws:cloudfront:CachePolicy RetailMindSiteServerCachePolicy created (2s) 
+@ updating.............
+ +  aws:s3:Bucket RetailMindSiteAssetsBucket created (12s) 
+@ updating....
+ +  aws:s3:BucketCorsConfiguration RetailMindSiteAssetsCors creating (0s) 
+ +  aws:s3:BucketPublicAccessBlock RetailMindSiteAssetsPublicAccessBlock creating (0s) 
+@ updating.....
+ +  aws:s3:BucketCorsConfiguration RetailMindSiteAssetsCors created (2s) 
+ +  aws:s3:BucketPublicAccessBlock RetailMindSiteAssetsPublicAccessBlock created (2s) 
+ +  aws:s3:BucketPolicy RetailMindSiteAssetsPolicy creating (0s) 
+@ updating......
+ +  aws:s3:BucketPolicy RetailMindSiteAssetsPolicy created (2s) 
+@ updating.........................
+ +  command:local:Command RetailMindSiteBuilder creating (39s) npm warn deprecated glob@9.3.5: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+@ updating................................
+ +  command:local:Command RetailMindSiteBuilder creating (68s) Next.js version : 16.1.6
+ +  command:local:Command RetailMindSiteBuilder creating (68s) OpenNext v3.9.14
+ +  command:local:Command RetailMindSiteBuilder creating (68s) 
+ +  command:local:Command RetailMindSiteBuilder creating (68s) ┌─────────────────────────────────┐
+ +  command:local:Command RetailMindSiteBuilder creating (68s) │ OpenNext — Building Next.js app │
+ +  command:local:Command RetailMindSiteBuilder creating (68s) └─────────────────────────────────┘
+ +  command:local:Command RetailMindSiteBuilder creating (68s) 
+@ updating....
+ +  command:local:Command RetailMindSiteBuilder creating (69s) 
+ +  command:local:Command RetailMindSiteBuilder creating (69s) > my-project@0.1.0 build /Users/aritrachatterjee/Desktop/RetailMind_AI
+ +  command:local:Command RetailMindSiteBuilder creating (69s) > next build
+ +  command:local:Command RetailMindSiteBuilder creating (69s) 
+@ updating.....
+ +  command:local:Command RetailMindSiteBuilder creating (71s) ▲ Next.js 16.1.6 (Turbopack)
+ +  command:local:Command RetailMindSiteBuilder creating (71s) - Environments: .env.local
+ +  command:local:Command RetailMindSiteBuilder creating (71s) 
+ +  command:local:Command RetailMindSiteBuilder creating (71s) ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+ +  command:local:Command RetailMindSiteBuilder creating (71s)   Creating an optimized production build ...
+@ updating................
+ +  aws:cloudfront:KeyValueStore RetailMindSiteKvStore created (85s) 
+@ updating....
+ +  command:local:Command RetailMindSiteBuilder creating (84s) ✓ Compiled successfully in 12.8s
+ +  command:local:Command RetailMindSiteBuilder creating (85s)   Skipping validation of types
+ +  aws:cloudfront:Function RetailMindSiteCloudfrontFunctionRequest creating (0s) 
+@ updating....
+ +  command:local:Command RetailMindSiteBuilder creating (85s)   Collecting page data using 7 workers ...
+@ updating....
+ +  command:local:Command RetailMindSiteBuilder creating (87s)   Generating static pages using 7 workers (0/44) ...
+ +  command:local:Command RetailMindSiteBuilder creating (87s)   Generating static pages using 7 workers (11/44) 
+ +  command:local:Command RetailMindSiteBuilder creating (87s)   Generating static pages using 7 workers (22/44) 
+ +  command:local:Command RetailMindSiteBuilder creating (87s)   Generating static pages using 7 workers (33/44) 
+@ updating....
+ +  command:local:Command RetailMindSiteBuilder creating (87s) ✓ Generating static pages using 7 workers (44/44) in 446.6ms
+ +  command:local:Command RetailMindSiteBuilder creating (87s)   Finalizing page optimization ...
+@ updating....
+ +  command:local:Command RetailMindSiteBuilder creating (88s) 
+ +  command:local:Command RetailMindSiteBuilder creating (88s) Route (app)
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ┌ ○ /
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ○ /_not-found
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/ai/product-analysis
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/auth/login
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/auth/logout
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/auth/register
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/bills
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/bills/[id]
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/chat
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/chat/history
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/churn-history
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/churn-predict
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/dashboard/stats
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/forecast
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/inventory-search
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/market-analysis
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/market-segment
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/orders
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/orders/[id]
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/product-search
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/products
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/products/[id]
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/products/bulk
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/products/parse-file
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/profile
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/profile/logo
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/sales-insights
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/store/[userId]/orders
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/store/[userId]/products
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/upload
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/verify-gst
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /api/verify-pan
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard/bills
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard/bills/[id]
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard/bills/new
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard/churn-prediction
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard/copilot
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard/market-analysis
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard/market-segmentation
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard/orders
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard/products
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard/quality-dashboard
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard/sales-analysis
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard/search
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ƒ /dashboard/settings
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ○ /login
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ○ /register
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ├ ○ /register/success
+ +  command:local:Command RetailMindSiteBuilder creating (88s) └ ƒ /store/[userId]
+ +  command:local:Command RetailMindSiteBuilder creating (88s) 
+ +  command:local:Command RetailMindSiteBuilder creating (88s) 
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ƒ Proxy (Middleware)
+ +  command:local:Command RetailMindSiteBuilder creating (88s) 
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ○  (Static)   prerendered as static content
+ +  command:local:Command RetailMindSiteBuilder creating (88s) ƒ  (Dynamic)  server-rendered on demand
+ +  command:local:Command RetailMindSiteBuilder creating (88s) 
+ +  command:local:Command RetailMindSiteBuilder creating (89s) 
+ +  command:local:Command RetailMindSiteBuilder creating (89s) ┌──────────────────────────────┐
+ +  command:local:Command RetailMindSiteBuilder creating (89s) │ OpenNext — Generating bundle │
+ +  command:local:Command RetailMindSiteBuilder creating (89s) └──────────────────────────────┘
+ +  command:local:Command RetailMindSiteBuilder creating (89s) 
+ +  command:local:Command RetailMindSiteBuilder creating (89s) Bundling middleware function...
+ +  command:local:Command RetailMindSiteBuilder creating (89s) Bundling static assets...
+ +  command:local:Command RetailMindSiteBuilder creating (89s) Bundling cache assets...
+@ updating....
+ +  aws:cloudfront:Function RetailMindSiteCloudfrontFunctionRequest created (4s) 
+ +  command:local:Command RetailMindSiteBuilder creating (90s) Building server function: default...
+ +  aws:cloudfront:Distribution RetailMindSiteCdnDistribution creating (0s) 
+@ updating.......
+ +  command:local:Command RetailMindSiteBuilder creating (93s) Applying code patches: 2.547s
+ +  command:local:Command RetailMindSiteBuilder creating (94s) Bundling revalidation function...
+@ updating....
+ +  command:local:Command RetailMindSiteBuilder creating (94s) Bundling image optimization function...
+ +  command:local:Command RetailMindSiteBuilder creating (95s) Installing dependencies for image-optimization-function...
+@ updating.....
+ +  aws:cloudfront:Distribution RetailMindSiteCdnDistribution created (6s) 
+ +  sst:sst:LinkRef RetailMindSiteLinkRef creating (0s) 
+@ updating......
+ +  pulumi-nodejs:dynamic:Resource RetailMindSiteCdnWaiter.sst.aws.DistributionDeploymentWaiter creating (0s) 
+@ updating........................
+ +  command:local:Command RetailMindSiteBuilder creating (121s) Dependencies installed for image-optimization-function
+ +  command:local:Command RetailMindSiteBuilder creating (121s) Bundling warmer function...
+@ updating.....
+ +  command:local:Command RetailMindSiteBuilder creating (122s) OpenNext build complete.
+@ updating.....
+ +  command:local:Command RetailMindSiteBuilder created (124s) OpenNext build complete.
+ +  sst:aws:Queue RetailMindSiteRevalidationEvents creating (0s) 
+ +  sst:aws:Function RetailMindSiteRevalidationSeeder creating (0s) 
+@ updating......
+    aws:dynamodb:Table RetailMindSiteRevalidationTable  warning: urn:pulumi:aritrachatterjee::retailmind-ai::sst:aws:Nextjs$aws:dynamodb/table:Table::RetailMindSiteRevalidationTable verification warning: hash_key is deprecated. Use key_schema instead.
+    aws:dynamodb:Table RetailMindSiteRevalidationTable  warning: urn:pulumi:aritrachatterjee::retailmind-ai::sst:aws:Nextjs$aws:dynamodb/table:Table::RetailMindSiteRevalidationTable verification warning: range_key is deprecated. Use key_schema instead.
+ +  aws:dynamodb:Table RetailMindSiteRevalidationTable creating (0s) warning: urn:pulumi:aritrachatterjee::retailmind-ai::sst:aws:Nextjs$aws:dynamodb/table:Table::RetailMindSiteRevalidationTable verification warning: range_key is deprecated. Use key_schema instead.
+ +  aws:sqs:Queue RetailMindSiteRevalidationEventsQueue creating (0s) 
+ +  random:index:RandomBytes LambdaEncryptionKey creating (0s) 
+ +  aws:cloudwatch:LogGroup RetailMindSiteRevalidationSeederLogGroup creating (0s) 
+ +  random:index:RandomBytes LambdaEncryptionKey created (0.02s) 
+@ updating.....
+ +  aws:cloudwatch:LogGroup RetailMindSiteRevalidationSeederLogGroup created (2s) 
+@ updating....
+ +  aws:s3:BucketObjectv2 RetailMindSiteRevalidationSeederCode creating (0s) 
+@ updating....
+ +  aws:s3:BucketObjectv2 RetailMindSiteRevalidationSeederCode created (1s) 
+@ updating............................
+ +  aws:sqs:Queue RetailMindSiteRevalidationEventsQueue created (29s) 
+ +  sst:aws:QueueLambdaSubscriber RetailMindSiteRevalidationEventsSubscriberRnenuc creating (0s) 
+ +  sst:aws:Function RetailMindSiteRevalidationEventsSubscriberRnenucFunction creating (0s) 
+ +  aws:cloudwatch:LogGroup RetailMindSiteRevalidationEventsSubscriberRnenucFunctionLogGroup creating (0s) 
+@ updating....
+ +  aws:iam:Role RetailMindSiteRevalidationEventsSubscriberRnenucFunctionRole creating (0s) 
+@ updating.....
+ +  aws:cloudwatch:LogGroup RetailMindSiteRevalidationEventsSubscriberRnenucFunctionLogGroup created (2s) 
+ +  aws:s3:BucketObjectv2 RetailMindSiteRevalidationEventsSubscriberRnenucFunctionCode creating (0s) 
+@ updating......
+ +  aws:iam:Role RetailMindSiteRevalidationEventsSubscriberRnenucFunctionRole created (4s) 
+@ updating....
+ +  aws:s3:BucketObjectv2 RetailMindSiteRevalidationEventsSubscriberRnenucFunctionCode created (4s) 
+ +  aws:lambda:Function RetailMindSiteRevalidationEventsSubscriberRnenucFunctionFunction creating (0s) 
+@ updating.............
+ +  aws:dynamodb:Table RetailMindSiteRevalidationTable created (46s) warning: urn:pulumi:aritrachatterjee::retailmind-ai::sst:aws:Nextjs$aws:dynamodb/table:Table::RetailMindSiteRevalidationTable verification warning: range_key is deprecated. Use key_schema instead.
+@ updating......
+ +  aws:lambda:Function RetailMindSiteRevalidationEventsSubscriberRnenucFunctionFunction created (12s) 
+@ updating......
+ +  sst:aws:Function RetailMindSiteImageOptimizer creating (0s) 
+ +  pulumi:providers:aws AwsProvider.sst.us-east-1 creating (0s) 
+ +  aws:iam:Role RetailMindSiteRevalidationSeederRole creating (0s) 
+ +  pulumi:providers:aws AwsProvider.sst.us-east-1 created (0.04s) 
+@ updating....
+ +  pulumi-nodejs:dynamic:Resource RetailMindSiteAssetFiles.sst.aws.BucketFiles creating (0s) 
+ +  aws:lambda:EventSourceMapping RetailMindSiteRevalidationEventsSubscriberRnenucEventSourceMapping creating (0s) 
+ +  aws:cloudwatch:LogGroup RetailMindSiteImageOptimizerLogGroup creating (0s) 
+ +  sst:aws:Function RetailMindSiteServerUseast1 creating (0s) 
+ +  aws:iam:Role RetailMindSiteImageOptimizerRole creating (0s) 
+@ updating.....
+ +  aws:cloudwatch:LogGroup RetailMindSiteServerUseast1LogGroup creating (0s) 
+ +  aws:iam:Role RetailMindSiteServerUseast1Role creating (0s) 
+@ updating....
+ +  aws:cloudwatch:LogGroup RetailMindSiteImageOptimizerLogGroup created (3s) 
+ +  aws:iam:Role RetailMindSiteRevalidationSeederRole created (3s) 
+ +  aws:lambda:Function RetailMindSiteRevalidationSeederFunction creating (0s) 
+@ updating....
+ +  aws:iam:Role RetailMindSiteImageOptimizerRole created (3s) 
+ +  aws:s3:BucketObjectv2 RetailMindSiteImageOptimizerCode creating (0s) 
+@ updating....
+ +  aws:cloudwatch:LogGroup RetailMindSiteServerUseast1LogGroup created (3s) 
+@ updating....
+ +  aws:s3:BucketObjectv2 RetailMindSiteServerUseast1Code creating (0s) 
+@ updating......
+ +  aws:iam:Role RetailMindSiteServerUseast1Role created (6s) 
+@ updating....
+ +  aws:lambda:EventSourceMapping RetailMindSiteRevalidationEventsSubscriberRnenucEventSourceMapping created (10s) 
+@ updating....
+ +  pulumi-nodejs:dynamic:Resource RetailMindSiteAssetFiles.sst.aws.BucketFiles created (11s) 
+@ updating.....................
+ +  aws:lambda:Function RetailMindSiteRevalidationSeederFunction created (25s) 
+ +  aws:lambda:Invocation RetailMindSiteRevalidationSeed creating (0s) 
+@ updating....
+ +  aws:s3:BucketObjectv2 RetailMindSiteImageOptimizerCode created (25s) 
+ +  aws:lambda:Function RetailMindSiteImageOptimizerFunction creating (0s) 
+@ updating....
+ +  aws:lambda:Invocation RetailMindSiteRevalidationSeed created (2s) 
+ +  aws:s3:BucketObjectv2 RetailMindSiteServerUseast1Code created (25s) 
+ +  aws:lambda:Function RetailMindSiteServerUseast1Function creating (0s) 
+@ updating............
+ +  aws:lambda:Function RetailMindSiteImageOptimizerFunction created (10s) 
+ +  aws:lambda:Permission RetailMindSiteImageOptimizerInvokeFunction creating (0s) 
+ +  aws:lambda:Permission RetailMindSiteImageOptimizerPublicFunctionUrlAccess creating (0s) 
+ +  aws:lambda:FunctionUrl RetailMindSiteImageOptimizerUrl creating (0s) 
+@ updating....
+ +  aws:lambda:Permission RetailMindSiteImageOptimizerInvokeFunction created (1s) 
+@ updating....
+ +  aws:lambda:Function RetailMindSiteServerUseast1Function created (10s) 
+ +  aws:lambda:FunctionUrl RetailMindSiteServerUseast1Url creating (0s) 
+ +  aws:lambda:Permission RetailMindSitePublicFunctionUrlAccessUseast1 creating (0s) 
+ +  aws:lambda:Permission RetailMindSiteServerUseast1InvokeFunction creating (0s) 
+@ updating....
+ +  aws:lambda:Permission RetailMindSitePublicFunctionUrlAccessUseast1 created (1s) 
+ +  aws:lambda:Permission RetailMindSiteImageOptimizerPublicFunctionUrlAccess created (2s) 
+ +  aws:lambda:FunctionUrl RetailMindSiteImageOptimizerUrl created (2s) 
+@ updating....
+ +  aws:lambda:Permission RetailMindSiteServerUseast1InvokeFunction created (2s) 
+ +  aws:lambda:FunctionUrl RetailMindSiteServerUseast1Url created (2s) 
+ +  pulumi-nodejs:dynamic:Resource RetailMindSiteKvKeys.sst.aws.KvKeys creating (0s) 
+@ updating......
+ +  pulumi-nodejs:dynamic:Resource RetailMindSiteKvKeys.sst.aws.KvKeys created (2s) 
+ +  pulumi-nodejs:dynamic:Resource RetailMindSiteInvalidation.sst.aws.DistributionInvalidation creating (0s) 
+@ updating.....
+ +  pulumi-nodejs:dynamic:Resource RetailMindSiteInvalidation.sst.aws.DistributionInvalidation created (1s) 
+@ updating................................................................................................................................................................................
+ +  pulumi-nodejs:dynamic:Resource RetailMindSiteCdnWaiter.sst.aws.DistributionDeploymentWaiter created (303s) 
+@ updating....
+ +  pulumi:pulumi:Stack retailmind-ai-aritrachatterjee created (431s) 2 messages
+Diagnostics:
+  aws:dynamodb:Table (RetailMindSiteRevalidationTable):
+    warning: urn:pulumi:aritrachatterjee::retailmind-ai::sst:aws:Nextjs$aws:dynamodb/table:Table::RetailMindSiteRevalidationTable verification warning: hash_key is deprecated. Use key_schema instead.
+    warning: urn:pulumi:aritrachatterjee::retailmind-ai::sst:aws:Nextjs$aws:dynamodb/table:Table::RetailMindSiteRevalidationTable verification warning: range_key is deprecated. Use key_schema instead.
+
+  pulumi:pulumi:Stack (retailmind-ai-aritrachatterjee):
+    (node:31206) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+    (Use `node --trace-warnings ...` to show where the warning was created)
+
+Outputs:
+    _protect: false
+    url     : "https://d235cmb5246m5k.cloudfront.net"
+
+Resources:
+    + 52 created
+
+Duration: 7m13s
+

@@ -2,13 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import { S3Client, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 
-const s3 = new S3Client({
-    region: process.env.MY_AWS_REGION!,
-    credentials: {
-        accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY!,
-    },
-});
+const config: any = {
+    region: process.env.MY_AWS_REGION || "us-east-1",
+};
+if (process.env.MY_AWS_ACCESS_KEY_ID && process.env.MY_AWS_SECRET_ACCESS_KEY) {
+    config.credentials = {
+        accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY,
+    };
+}
+const s3 = new S3Client(config);
 
 const BUCKET = process.env.MY_AWS_S3_BUCKET_NAME!;
 
