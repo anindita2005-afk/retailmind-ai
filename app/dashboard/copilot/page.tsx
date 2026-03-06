@@ -60,16 +60,7 @@ function providerColor(p: string) {
   return "#94a3b8"
 }
 
-// Declare puter global (loaded from CDN)
-declare global {
-  interface Window {
-    puter?: {
-      ai: {
-        chat: (messages: any, opts?: any) => Promise<any>
-      }
-    }
-  }
-}
+// Server-side fallback handles Puter now
 
 // ─── Export helpers ───────────────────────────────────────────────────────────
 function buildMarkdownExport(
@@ -109,7 +100,6 @@ export default function CopilotPage() {
   const [saving, setSaving] = useState(false)
   const [activeProvider, setActiveProvider] = useState("Gemini 2.5 Flash")
   const [copied, setCopied] = useState<string | null>(null)
-  const [puterLoaded, setPuterLoaded] = useState(false)
 
   const bottomRef = useRef<HTMLDivElement>(null)
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -118,16 +108,7 @@ export default function CopilotPage() {
   // re-running on every streaming text chunk (which recreates the array ref)
   const dataLenRef = useRef(0)
 
-  // ── Load Puter.js from CDN (no API key needed — browser auth) ─────────────
-  useEffect(() => {
-    if (document.getElementById("puter-sdk")) { setPuterLoaded(true); return }
-    const script = document.createElement("script")
-    script.id = "puter-sdk"
-    script.src = "https://js.puter.com/v2/"
-    script.async = true
-    script.onload = () => setPuterLoaded(true)
-    document.head.appendChild(script)
-  }, [])
+
 
   const {
     messages, input, handleInputChange, handleSubmit,
@@ -150,12 +131,8 @@ export default function CopilotPage() {
     dataLenRef.current = arr.length
     const last = arr[arr.length - 1]
     if (last?.provider) setActiveProvider(String(last.provider))
-    if (last?.fallbackToPuter && puterLoaded) {
-      const cleanMsgs = messages.filter(m => !m.content.includes("__PUTER_FALLBACK__"))
-      callPuter(cleanMsgs)
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, puterLoaded])
+  }, [data])
 
   // Auto-scroll
   useEffect(() => {
@@ -214,33 +191,7 @@ export default function CopilotPage() {
     } finally { setSaving(false) }
   }, [messages, sessionId, sessionTitle, activeProvider])
 
-  // ── Client-side Puter fallback (no API key — uses browser session) ─────────
-  const callPuter = useCallback(async (userMessages: { role: string; content: string }[]) => {
-    if (!window.puter?.ai) { console.warn("[Puter] SDK not ready"); return }
-    setActiveProvider("Puter GPT-4o")
-    const chatMessages = userMessages.map(m => ({
-      role: m.role === "assistant" ? "assistant" : "user",
-      content: m.content,
-    }))
-    try {
-      const resp = await window.puter.ai.chat(chatMessages, { model: "gpt-4o", stream: true })
-      let fullText = ""
-      for await (const part of resp) {
-        const token = part?.text ?? ""
-        if (!token) continue
-        fullText += token
-        setMessages(prev => {
-          const last = prev[prev.length - 1]
-          if (last?.role === "assistant") return [...prev.slice(0, -1), { ...last, content: fullText }]
-          return [...prev, { id: `puter_${Date.now()}`, role: "assistant" as const, content: fullText, createdAt: new Date() }]
-        })
-      }
-      if (saveTimerRef.current) clearTimeout(saveTimerRef.current)
-      saveTimerRef.current = setTimeout(persistSession, 800)
-    } catch (e) {
-      console.error("[Puter] fallback failed:", e)
-    }
-  }, [persistSession, setMessages])
+
 
   // ── New chat ──────────────────────────────────────────────────────────────
   const handleNewChat = () => {

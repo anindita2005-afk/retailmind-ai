@@ -94,6 +94,54 @@ async function tryGroq(
   }
 }
 
+// ── Puter SSE fallback ───────────────────────────────────────────────────────
+async function tryPuter(
+  messages: { role: string; content: string }[],
+  controller: ReadableStreamDefaultController,
+  encoder: TextEncoder
+) {
+  const clean = messages.map(({ role, content }) => ({ role, content }));
+
+  const res = await fetch("https://api.puter.com/puterai/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.PUTER_AUTH_TOKEN}`,
+    },
+    body: JSON.stringify({
+      model: "gpt-4o",
+      stream: true,
+      messages: [{ role: "system", content: SYSTEM_PROMPT }, ...clean],
+    }),
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Puter ${res.status}: ${body}`);
+  }
+
+  const decoder = new TextDecoder();
+  const reader = res.body!.getReader();
+  let buf = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buf += decoder.decode(value, { stream: true });
+    const lines = buf.split("\n");
+    buf = lines.pop() ?? "";
+    for (const line of lines) {
+      const t = line.trim();
+      if (!t || t === "data: [DONE]" || !t.startsWith("data: ")) continue;
+      try {
+        const json = JSON.parse(t.slice(6));
+        const delta = json.choices?.[0]?.delta?.content;
+        if (typeof delta === "string" && delta) controller.enqueue(enc(encoder, delta));
+      } catch { /* skip bad SSE line */ }
+    }
+  }
+}
+
 // ── Main route ───────────────────────────────────────────────────────────────
 export async function POST(req: Request) {
   try {
@@ -133,15 +181,23 @@ export async function POST(req: Request) {
           return controller.close();
         } catch { /* try Groq */ }
 
-        // ④ Groq Llama 3.3 70B — server-side final fallback
+        // ④ Groq Llama 3.3 70B — server-side fallback
         try {
           controller.enqueue(encData(encoder, { provider: "Groq Llama 3.3" }));
           await tryGroq(messages, controller, encoder);
+          controller.enqueue(encFinish(encoder));
+          return controller.close();
         } catch (e) {
-          console.error("[Copilot] All server providers failed:", e);
-          // Signal to client to use Puter.js client-side fallback
-          controller.enqueue(encData(encoder, { fallbackToPuter: true }));
-          controller.enqueue(enc(encoder, "__PUTER_FALLBACK__"));
+          console.error("[Copilot] Groq failed, trying Puter:", e);
+        }
+
+        // ⑤ Puter GPT-4o — final server-side fallback
+        try {
+          controller.enqueue(encData(encoder, { provider: "Puter GPT-4o" }));
+          await tryPuter(messages, controller, encoder);
+        } catch (e) {
+          console.error("[Copilot] All server providers failed including Puter:", e);
+          controller.enqueue(enc(encoder, "\n\n**Error:** I'm sorry, but all my AI provider systems are currently unavailable. Please try again later."));
         }
 
         controller.enqueue(encFinish(encoder));
