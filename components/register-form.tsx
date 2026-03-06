@@ -34,6 +34,9 @@ export default function RegisterForm() {
   const [gstValidated, setGstValidated] = useState(false)
   const [gstValidating, setGstValidating] = useState(false)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
+  const [otpMode, setOtpMode] = useState(false)
+  const [otp, setOtp] = useState("")
+  const [otpToken, setOtpToken] = useState("")
 
   const [form, setForm] = useState({
     full_name: "",
@@ -91,29 +94,56 @@ export default function RegisterForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!form.city.trim()) { setError("City is required."); return }
+    if (!form.city.trim() && !otpMode) { setError("City is required."); return }
     setError("")
     setLoading(true)
     try {
-      const res = await fetch(`/api/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: form.email,
-          password: form.password,
-          business_name: form.business_name,
-          gst_number: form.gst_number.toUpperCase(),
-          business_reg_number: form.business_reg_number,
-          pan_number: form.pan_number?.toUpperCase() || null,
-          owner_name: form.full_name,
-          phone: form.phone || null,
-        }),
-      })
-      const data = await res.json()
-      if (!res.ok) {
-        setError(data.error || "Registration failed. Please try again.")
+      if (!otpMode) {
+        const res = await fetch(`/api/auth/register?step=verify`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: form.email,
+            password: form.password,
+            business_name: form.business_name,
+            gst_number: form.gst_number.toUpperCase(),
+            business_reg_number: form.business_reg_number,
+            pan_number: form.pan_number?.toUpperCase() || null,
+            owner_name: form.full_name,
+            phone: form.phone || null,
+          }),
+        })
+        const data = await res.json()
+        if (!res.ok) {
+          setError(data.error || "Registration failed. Please try again.")
+        } else {
+          setOtpToken(data.otpToken)
+          setOtpMode(true)
+        }
       } else {
-        window.location.href = "/dashboard"
+        const res = await fetch(`/api/auth/register?step=confirm`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: form.email,
+            password: form.password,
+            business_name: form.business_name,
+            gst_number: form.gst_number.toUpperCase(),
+            business_reg_number: form.business_reg_number,
+            pan_number: form.pan_number?.toUpperCase() || null,
+            owner_name: form.full_name,
+            phone: form.phone || null,
+            otp,
+            otpToken
+          }),
+        })
+        const data = await res.json()
+        if (!res.ok) {
+          setError(data.error || "Invalid OTP. Please try again.")
+        } else {
+          document.cookie = `retailiq_session=${data.token}; path=/; max-age=604800; samesite=lax`;
+          window.location.href = "/dashboard"
+        }
       }
     } catch {
       setError("Network error. Please try again.")
@@ -368,28 +398,58 @@ export default function RegisterForm() {
           {/* ── STEP 3 ── */}
           {step === 3 && (
             <form className="reg-form-body" onSubmit={handleSubmit}>
-              <div className="reg-row-2">
-                <div className="reg-field">
-                  <label htmlFor="reg-city">City <span className="reg-req">*</span></label>
-                  <input id="reg-city" type="text" placeholder="Mumbai" value={form.city} onChange={set("city")} />
-                </div>
-                <div className="reg-field">
-                  <label htmlFor="reg-state">State</label>
-                  <input id="reg-state" type="text" placeholder="Maharashtra" value={form.state} onChange={set("state")} />
-                </div>
-              </div>
-              <div className="reg-field">
-                <label htmlFor="reg-phone">Phone Number</label>
-                <input id="reg-phone" type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={set("phone")} />
-              </div>
+              {!otpMode ? (
+                <>
+                  <div className="reg-row-2">
+                    <div className="reg-field">
+                      <label htmlFor="reg-city">City <span className="reg-req">*</span></label>
+                      <input id="reg-city" type="text" placeholder="Mumbai" value={form.city} onChange={set("city")} />
+                    </div>
+                    <div className="reg-field">
+                      <label htmlFor="reg-state">State</label>
+                      <input id="reg-state" type="text" placeholder="Maharashtra" value={form.state} onChange={set("state")} />
+                    </div>
+                  </div>
+                  <div className="reg-field">
+                    <label htmlFor="reg-phone">Phone Number</label>
+                    <input id="reg-phone" type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={set("phone")} />
+                  </div>
 
-              <div className="reg-row-btns">
-                <button type="button" className="reg-back-btn" onClick={() => { setStep(2); setError("") }}>← Back</button>
-                <button type="submit" className="reg-cta reg-cta-flex" disabled={loading}>
-                  {loading ? <Loader2 size={16} className="spin" /> : null}
-                  {loading ? "Creating Account…" : <>Create Account <ArrowRight size={16} /></>}
-                </button>
-              </div>
+                  <div className="reg-row-btns">
+                    <button type="button" className="reg-back-btn" onClick={() => { setStep(2); setError("") }}>← Back</button>
+                    <button type="submit" className="reg-cta reg-cta-flex" disabled={loading}>
+                      {loading ? <Loader2 size={16} className="spin" /> : null}
+                      {loading ? "Sending OTP…" : <>Get OTP to Create Account <ArrowRight size={16} /></>}
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="reg-field">
+                    <label htmlFor="reg-otp">Verify Email OTP <span className="reg-req">*</span></label>
+                    <input 
+                      id="reg-otp" 
+                      type="text" 
+                      placeholder="Enter 6-digit OTP" 
+                      value={otp} 
+                      onChange={(e) => setOtp(e.target.value)} 
+                      maxLength={6}
+                      style={{ textAlign: "center", letterSpacing: "4px", fontSize: "18px", fontWeight: "bold" }}
+                    />
+                    <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", marginTop: "4px" }}>
+                      An OTP has been sent to your email. Please enter it here.
+                    </p>
+                  </div>
+
+                  <div className="reg-row-btns">
+                    <button type="button" className="reg-back-btn" onClick={() => { setOtpMode(false); setError("") }}>← Back</button>
+                    <button type="submit" className="reg-cta reg-cta-flex" disabled={loading || otp.length < 6}>
+                      {loading ? <Loader2 size={16} className="spin" /> : null}
+                      {loading ? "Verifying…" : <>Verify & Create Account <ArrowRight size={16} /></>}
+                    </button>
+                  </div>
+                </>
+              )}
 
               <div className="reg-help">
                 <MessageCircle size={16} className="reg-help-icon" />
