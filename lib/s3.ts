@@ -3,18 +3,18 @@ import { v4 as uuidv4 } from "uuid"
 
 // Requirement 1 & 2: Reusable S3 configuration using AWS SDK v3 and environment variables
 const s3Client = new S3Client({
-    region: process.env.AWS_REGION || "us-east-1",
+    region: process.env.MY_AWS_REGION || "us-east-1",
     credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+        accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID || "",
+        secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY || "",
     }
 })
 
-const BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME || ""
+const BUCKET_NAME = process.env.MY_AWS_S3_BUCKET_NAME || ""
 
 // Upload file to S3
 export async function uploadToS3(fileBuffer: Buffer, originalFilename: string, mimeType: string): Promise<string> {
-    if (!BUCKET_NAME) throw new Error("AWS_S3_BUCKET_NAME is not configured")
+    if (!BUCKET_NAME) throw new Error("MY_AWS_S3_BUCKET_NAME is not configured")
 
     // Generate unique filename (uuid + timestamp)
     const timestamp = Date.now()
@@ -35,7 +35,7 @@ export async function uploadToS3(fileBuffer: Buffer, originalFilename: string, m
     try {
         await s3Client.send(command)
         // Return public file URL
-        return `https://${BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`
+        return `https://${BUCKET_NAME}.s3.${process.env.MY_AWS_REGION}.amazonaws.com/${key}`
     } catch (error) {
         console.error("S3 Upload Error:", error)
         throw new Error("Failed to upload file to S3")
@@ -44,7 +44,7 @@ export async function uploadToS3(fileBuffer: Buffer, originalFilename: string, m
 
 // Delete file function
 export async function deleteFromS3(fileUrl: string): Promise<void> {
-    if (!BUCKET_NAME) throw new Error("AWS_S3_BUCKET_NAME is not configured")
+    if (!BUCKET_NAME) throw new Error("MY_AWS_S3_BUCKET_NAME is not configured")
 
     try {
         const url = new URL(fileUrl)
@@ -65,7 +65,7 @@ export async function deleteFromS3(fileUrl: string): Promise<void> {
 
 // Get file metadata function
 export async function getS3FileMetadata(fileUrl: string) {
-    if (!BUCKET_NAME) throw new Error("AWS_S3_BUCKET_NAME is not configured")
+    if (!BUCKET_NAME) throw new Error("MY_AWS_S3_BUCKET_NAME is not configured")
 
     try {
         const url = new URL(fileUrl)

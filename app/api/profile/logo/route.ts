@@ -5,10 +5,10 @@ import { UpdateCommand } from "@aws-sdk/lib-dynamodb"
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"
 
 const s3Client = new S3Client({
-    region: process.env.AWS_REGION || "ap-south-1",
+    region: process.env.MY_AWS_REGION || "ap-south-1",
     credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+        accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID || "",
+        secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY || "",
     }
 });
 
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
             ContentType: file.type,
         }));
 
-        const logoUrl = `https://${S3_BUCKET}.s3.${process.env.AWS_REGION || "ap-south-1"}.amazonaws.com/logos/${filename}`
+        const logoUrl = `https://${S3_BUCKET}.s3.${process.env.MY_AWS_REGION || "ap-south-1"}.amazonaws.com/logos/${filename}`
 
         await db.send(new UpdateCommand({
             TableName: `${TABLE_PREFIX}BusinessProfiles`,

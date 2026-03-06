@@ -46,7 +46,7 @@ Resources:
           GOOGLE_API_KEY: ""
           SERP_API_KEY: ""
           DYNAMODB_PREFIX: RetailIQ_
-          AWS_S3_BUCKET_NAME: retailmind-ai-uploads-579707562405
+          MY_AWS_S3_BUCKET_NAME: retailmind-ai-uploads-579707562405
           EMAIL_USER: logiclegends2026@gmail.com
           EMAIL_PASS: vpfx rsio qcop usej
           GOOGLE_GENERATIVE_AI_API_KEY: ""
