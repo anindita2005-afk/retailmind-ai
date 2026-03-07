@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
-import { Loader2, Save, CheckCircle2, Upload, Building2, X } from "lucide-react"
+import { Loader2, Save, CheckCircle2, Upload, Building2, X, AlertTriangle, Trash2 } from "lucide-react"
 import Image from "next/image"
 
 interface Props {
@@ -38,6 +38,57 @@ export default function SettingsForm({ user }: Props) {
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }))
+
+  // Delete Account State
+  const [deleteMode, setDeleteMode] = useState<"none" | "confirm" | "verify">("none")
+  const [deleteOtp, setDeleteOtp] = useState("")
+  const [deleteOtpToken, setDeleteOtpToken] = useState("")
+  const [deleteLoading, setDeleteLoading] = useState(false)
+  const [deleteError, setDeleteError] = useState("")
+
+  async function requestDeleteOtp() {
+    setDeleteError("")
+    setDeleteLoading(true)
+    try {
+      const res = await fetch("/api/profile/delete-account?step=request", { method: "POST" })
+      const data = await res.json()
+      if (!res.ok) setDeleteError(data.error || "Failed to send OTP")
+      else {
+        setDeleteOtpToken(data.otpToken)
+        setDeleteMode("verify")
+      }
+    } catch {
+      setDeleteError("Network error")
+    } finally {
+      setDeleteLoading(false)
+    }
+  }
+
+  async function confirmDeleteAccount() {
+    if (deleteOtp.length !== 6) {
+      setDeleteError("Please enter a valid 6-digit OTP")
+      return
+    }
+    setDeleteError("")
+    setDeleteLoading(true)
+    try {
+      const res = await fetch("/api/profile/delete-account?step=verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ otp: deleteOtp, otpToken: deleteOtpToken })
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setDeleteError(data.error || "Invalid OTP or deletion failed")
+        setDeleteLoading(false)
+      } else {
+        router.push("/login")
+      }
+    } catch {
+      setDeleteError("Network error")
+      setDeleteLoading(false)
+    }
+  }
 
   // Handle logo file selection — show preview immediately
   function handleLogoSelect(e: React.ChangeEvent<HTMLInputElement>) {
@@ -312,6 +363,87 @@ export default function SettingsForm({ user }: Props) {
           {loading || logoUploading ? "Saving…" : saved ? "Saved!" : "Save Changes"}
         </button>
       </form>
+
+      {/* ── DANGER ZONE ── */}
+      <section className="rounded-xl border p-5 mt-10" style={{ background: "rgba(239,68,68,0.05)", borderColor: "rgba(239,68,68,0.20)" }}>
+        <h3 className="text-sm font-semibold text-red-500 mb-2 flex items-center gap-2">
+          <AlertTriangle className="w-4 h-4" /> Danger Zone
+        </h3>
+        <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
+          Permanently delete your RetailMind AI account, business profile, and remove access to all associated data. This action cannot be undone.
+        </p>
+
+        {deleteMode === "none" && (
+          <button
+            onClick={() => setDeleteMode("confirm")}
+            className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-all border border-red-500/20"
+          >
+            <Trash2 className="w-4 h-4" /> Delete Account
+          </button>
+        )}
+
+        {deleteMode === "confirm" && (
+          <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-lg flex flex-col gap-3">
+            <p className="text-sm font-medium text-red-400">Are you sure you want to delete your account?</p>
+            {deleteError && <p className="text-xs text-red-500">{deleteError}</p>}
+            <div className="flex gap-3">
+              <button
+                onClick={requestDeleteOtp}
+                disabled={deleteLoading}
+                className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-bold hover:bg-red-600 transition-all disabled:opacity-60"
+              >
+                {deleteLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                Yes, Send OTP
+              </button>
+              <button
+                onClick={() => { setDeleteMode("none"); setDeleteError("") }}
+                disabled={deleteLoading}
+                className="px-4 py-2 bg-transparent text-muted-foreground hover:text-white rounded-lg text-sm font-medium transition-all"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+
+        {deleteMode === "verify" && (
+          <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-lg flex flex-col gap-4">
+            <div>
+              <p className="text-sm font-medium text-red-400 mb-1">Verify Account Deletion</p>
+              <p className="text-xs text-muted-foreground">An OTP has been sent to {user?.email}. Enter it below to permanently delete your account.</p>
+            </div>
+            
+            <div className="flex gap-3 items-start">
+              <div className="flex-1 max-w-[200px]">
+                <input
+                  type="text"
+                  placeholder="6-digit OTP"
+                  maxLength={6}
+                  value={deleteOtp}
+                  onChange={(e) => setDeleteOtp(e.target.value.replace(/\D/g, ""))}
+                  className="w-full px-3 py-2 rounded-lg text-sm bg-black/50 border border-red-500/30 text-white placeholder:text-muted-foreground outline-none focus:border-red-500 transition-all text-center tracking-widest font-mono"
+                />
+                {deleteError && <p className="text-xs text-red-500 mt-1">{deleteError}</p>}
+              </div>
+              <button
+                onClick={confirmDeleteAccount}
+                disabled={deleteLoading || deleteOtp.length !== 6}
+                className="flex items-center justify-center min-w-[120px] px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-bold hover:bg-red-600 transition-all disabled:opacity-60"
+              >
+                {deleteLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Delete Forever"}
+              </button>
+            </div>
+            
+            <button
+              onClick={() => { setDeleteMode("none"); setDeleteOtp(""); setDeleteError("") }}
+              disabled={deleteLoading}
+              className="text-xs text-muted-foreground hover:text-white self-start transition-all"
+            >
+              Cancel Deletion
+            </button>
+          </div>
+        )}
+      </section>
     </div>
   )
 }
