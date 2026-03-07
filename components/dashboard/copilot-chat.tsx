@@ -3,6 +3,7 @@
 import { useChat } from "ai/react"
 import { useRef, useEffect, useState } from "react"
 import { Loader2, Download, Paperclip, Mic, ArrowUp, Zap, TrendingUp, Store, FileText, Users, Box, Hexagon, Plus, MessageSquare, User } from "lucide-react"
+import { jsPDF } from "jspdf"
 
 const SUGGESTIONS = [
   { text: "What GST rate applies to mobile phones?", icon: Zap },
@@ -105,19 +106,39 @@ export default function CopilotChat({
 
     if (!messages.length) return
 
-    const text = messages.map(m => `[${m.role}]: ${m.content}`).join("\n\n")
+    const doc = new jsPDF()
+    let y = 20
+    const margin = 10
+    const pageHeight = doc.internal.pageSize.getHeight()
+    const maxWidth = doc.internal.pageSize.getWidth() - 20
 
-    const blob = new Blob([text], { type: "text/plain" })
+    doc.setFontSize(16)
+    doc.text("RetailIQ Copilot - Chat Session", margin, y)
+    y += 15
 
-    const url = URL.createObjectURL(blob)
+    doc.setFontSize(12)
+    messages.forEach((m) => {
+      const roleText = m.role === "user" ? "You:" : "RetailIQ:"
+      
+      doc.setFont("helvetica", "bold")
+      doc.text(roleText, margin, y)
+      y += 6
 
-    const a = document.createElement("a")
+      doc.setFont("helvetica", "normal")
+      const lines = doc.splitTextToSize(m.content, maxWidth)
+      
+      lines.forEach((line: string) => {
+        if (y > pageHeight - 20) {
+          doc.addPage()
+          y = 20
+        }
+        doc.text(line, margin, y)
+        y += 6
+      })
+      y += 6
+    })
 
-    a.href = url
-
-    a.download = "RetailIQ-session.txt"
-
-    a.click()
+    doc.save("RetailIQ-session.pdf")
 
   }
 
