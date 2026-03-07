@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Bell, LayoutGrid, Search } from "lucide-react"
 
@@ -15,10 +15,89 @@ export default function DashboardHeader({ title, subtitle }: Props) {
   const [query, setQuery] = useState("")
   const [showNotifications, setShowNotifications] = useState(false)
   const [showFeatures, setShowFeatures] = useState(false)
-  const [notifications, setNotifications] = useState([
-    { id: 1, title: "System Update", desc: "RetailMind AI has been updated to v1.2", time: "2m ago" },
-    { id: 2, title: "New Feature", desc: "Try the new Market Analysis Copilot", time: "1h ago" }
-  ])
+  const [notifications, setNotifications] = useState<any[]>([])
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function fetchNotifications() {
+      try {
+        const res = await fetch("/api/orders");
+        if (!res.ok) return;
+        const data = await res.json();
+        const orders = data.orders || [];
+
+        if (!mounted) return;
+
+        const orderNotifs = orders.slice(0, 5).map((o: any) => {
+          const d = new Date(o.created_at);
+          const diffStr = (() => {
+            const diff = Math.floor((new Date().getTime() - d.getTime()) / 1000);
+            if (diff < 60) return "Just now";
+            if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+            if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+            return `${Math.floor(diff / 86400)}d ago`;
+          })();
+
+          return {
+             id: `order-${o.id}`,
+             title: `New Order: ${o.customer_name}`,
+             desc: `Total: ₹${o.total_amount} (${o.items?.length || 0} items)`,
+             time: diffStr
+          };
+        });
+
+        const staticNotifs = [
+          { id: "sys-1", title: "System Update", desc: "RetailMind AI has been updated to v1.2", time: "2m ago" },
+          { id: "sys-2", title: "New Feature", desc: "Try the new Market Analysis Copilot", time: "1h ago" }
+        ];
+
+        let allNotifs = [...orderNotifs, ...staticNotifs];
+
+        const clearedStr = localStorage.getItem("cleared_notifications");
+        if (clearedStr) {
+          try {
+            const cleared = JSON.parse(clearedStr);
+            if (Array.isArray(cleared)) {
+              allNotifs = allNotifs.filter(n => !cleared.includes(n.id));
+            }
+          } catch (e) {
+            console.error("Failed to parse cleared notifications", e);
+          }
+        }
+
+        setNotifications(allNotifs);
+      } catch (err) {
+        console.error("Error fetching notification orders:", err);
+      }
+    }
+
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 15000);
+
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+    };
+  }, []);
+
+  const handleClearAll = () => {
+    const clearedStr = localStorage.getItem("cleared_notifications");
+    let cleared = [];
+    try {
+      if (clearedStr) cleared = JSON.parse(clearedStr);
+      if (!Array.isArray(cleared)) cleared = [];
+    } catch (e) {
+      cleared = [];
+    }
+    
+    notifications.forEach(n => {
+      if (!cleared.includes(n.id)) cleared.push(n.id);
+    });
+    
+    localStorage.setItem("cleared_notifications", JSON.stringify(cleared));
+    setNotifications([]);
+  };
 
   function handleSearch(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key !== "Enter") return
@@ -520,7 +599,7 @@ export default function DashboardHeader({ title, subtitle }: Props) {
 
               {notifications.length > 0 && (
                 <button
-                  onClick={() => setNotifications([])}
+                  onClick={handleClearAll}
                   className="text-[10px] font-semibold text-muted-foreground hover:text-[#47ff86] transition-colors uppercase tracking-wider"
                 >
                   Clear All
