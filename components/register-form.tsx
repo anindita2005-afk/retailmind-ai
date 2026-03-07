@@ -206,7 +206,7 @@ export default function RegisterForm() {
         </div>
 
         {/* Footer */}
-        <div className="reg-left-footer">© 2026 RetailMind AI Technologies Inc.</div>
+        <div className="reg-left-footer">2026 RetailMind AI Technologies Inc.</div>
       </div>
 
       {/* ── Right Panel ── */}

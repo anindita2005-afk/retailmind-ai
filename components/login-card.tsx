@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Eye, EyeOff, ArrowRight, Loader2 } from "lucide-react"
 
+
 export default function LoginCard() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -303,16 +304,89 @@ export default function LoginCard() {
             Harness the power of neural networks to optimize your supply chain and maximize retail performance in real-time.
           </p>
           <div className="login-hero-divider" />
-          <div className="login-hero-stats">
-            <div className="login-stat">
-              <span className="login-stat-value">24%</span>
-              <span className="login-stat-label">Average ROI increase</span>
+
+          {/* ── Unified Capability Panel ── */}
+          <div className="lf-panel">
+
+            {/* Row 1 */}
+            <div className="lf-row" style={{ animationDelay: "0ms" }}>
+              <div className="lf-accent" />
+              <span className="lf-num">01</span>
+              <div className="lf-info">
+                <span className="lf-title">Demand Intelligence</span>
+                <span className="lf-desc">AI-powered forecasting that prevents stockouts before they happen</span>
+              </div>
+              <div className="lf-ico" style={{ background: "rgba(71,255,134,0.07)", border: "1px solid rgba(71,255,134,0.15)" }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="9.5" width="3" height="5" rx="1" fill="#47ff86" opacity="0.35"/>
+                  <rect x="6" y="6" width="3" height="8.5" rx="1" fill="#47ff86" opacity="0.65"/>
+                  <rect x="11" y="2" width="3" height="12.5" rx="1" fill="#47ff86"/>
+                  <path d="M2 9L6.5 5.5L11 7.5L15 2" stroke="#47ff86" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="15" cy="2" r="1.2" fill="#47ff86"/>
+                </svg>
+              </div>
             </div>
-            <div className="login-stat">
-              <span className="login-stat-value">12k+</span>
-              <span className="login-stat-label">Stores optimized daily</span>
+
+            <div className="lf-divider" />
+
+            {/* Row 2 */}
+            <div className="lf-row" style={{ animationDelay: "75ms" }}>
+              <div className="lf-accent" />
+              <span className="lf-num">02</span>
+              <div className="lf-info">
+                <span className="lf-title">GST &amp; Billing</span>
+                <span className="lf-desc">Automated compliance tracking &amp; real-time invoice insights</span>
+              </div>
+              <div className="lf-ico" style={{ background: "rgba(96,165,250,0.07)", border: "1px solid rgba(96,165,250,0.15)" }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="3" y="1.5" width="10" height="13" rx="2" stroke="#60a5fa" strokeWidth="1.3" fill="rgba(96,165,250,0.05)"/>
+                  <path d="M5.5 5.5h5M5.5 8h5M5.5 10.5h3" stroke="#60a5fa" strokeWidth="1.1" strokeLinecap="round"/>
+                </svg>
+              </div>
             </div>
+
+            <div className="lf-divider" />
+
+            {/* Row 3 */}
+            <div className="lf-row" style={{ animationDelay: "150ms" }}>
+              <div className="lf-accent" />
+              <span className="lf-num">03</span>
+              <div className="lf-info">
+                <span className="lf-title">Retail Copilot</span>
+                <span className="lf-desc">Conversational AI trained on your live business data</span>
+              </div>
+              <div className="lf-ico" style={{ background: "rgba(167,139,250,0.07)", border: "1px solid rgba(167,139,250,0.15)" }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M2 4a1.5 1.5 0 011.5-1.5h9A1.5 1.5 0 0114 4v6a1.5 1.5 0 01-1.5 1.5H8.5L6 13.5V11.5H3.5A1.5 1.5 0 012 10V4z" stroke="#a78bfa" strokeWidth="1.3" fill="rgba(167,139,250,0.06)"/>
+                  <circle cx="5.5" cy="7" r="0.9" fill="#a78bfa"/>
+                  <circle cx="8" cy="7" r="0.9" fill="#a78bfa"/>
+                  <circle cx="10.5" cy="7" r="0.9" fill="#a78bfa"/>
+                </svg>
+              </div>
+            </div>
+
+            <div className="lf-divider" />
+
+            {/* Row 4 */}
+            <div className="lf-row" style={{ animationDelay: "225ms" }}>
+              <div className="lf-accent" />
+              <span className="lf-num">04</span>
+              <div className="lf-info">
+                <span className="lf-title">Risk &amp; Churn</span>
+                <span className="lf-desc">Early signals for supplier issues &amp; customer attrition</span>
+              </div>
+              <div className="lf-ico" style={{ background: "rgba(251,191,36,0.07)", border: "1px solid rgba(251,191,36,0.15)" }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="6" stroke="#fbbf24" strokeWidth="1.3"/>
+                  <circle cx="8" cy="8" r="3.2" stroke="#fbbf24" strokeWidth="0.9" opacity="0.4"/>
+                  <circle cx="8" cy="8" r="1.2" fill="#fbbf24"/>
+                  <path d="M8 2v1.5M8 12.5V14M2 8h1.5M12.5 8H14" stroke="#fbbf24" strokeWidth="0.9" strokeLinecap="round" opacity="0.4"/>
+                </svg>
+              </div>
+            </div>
+
           </div>
+
         </div>
       </div>
 
@@ -528,7 +602,7 @@ export default function LoginCard() {
           overflow: hidden;
           display: flex;
           align-items: flex-end;
-          padding: 56px 64px;
+          padding: 56px 44px;
         }
 
         /* Actual background image */
@@ -559,7 +633,8 @@ export default function LoginCard() {
         .login-hero-content {
           position: relative;
           z-index: 3;
-          max-width: 420px;
+          max-width: 520px;
+          width: 100%;
         }
 
         .login-hero-badge {
@@ -599,20 +674,137 @@ export default function LoginCard() {
         .login-hero-divider {
           width: 100%;
           height: 1px;
-          background: rgba(255,255,255,0.12);
-          margin-bottom: 24px;
+          background: rgba(255,255,255,0.10);
+          margin-bottom: 20px;
         }
 
-        .login-hero-stats { display: flex; gap: 48px; }
-        .login-stat { display: flex; flex-direction: column; gap: 4px; }
-        .login-stat-value {
-          font-size: 28px;
-          font-weight: 700;
-          color: #ffffff;
-          letter-spacing: -0.02em;
-          line-height: 1;
+        /* ─────────────────────────────────────────────────
+           UNIFIED CAPABILITY PANEL  (professional row list)
+        ───────────────────────────────────────────────── */
+        @keyframes lfUp {
+          from { opacity: 0; transform: translateY(8px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
-        .login-stat-label { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+        /* Outer container – one unified glass panel */
+        .lf-panel {
+          display: flex;
+          flex-direction: column;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 18px;
+          overflow: hidden;
+          background: rgba(4,12,8,0.55);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          box-shadow: 0 0 0 1px rgba(71,255,134,0.04) inset,
+                      0 24px 48px rgba(0,0,0,0.3);
+        }
+
+        /* Each row */
+        .lf-row {
+          position: relative;
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          padding: 14px 16px;
+          cursor: default;
+          transition: background 0.18s ease;
+          animation: lfUp 0.4s ease both;
+          overflow: hidden;
+        }
+        .lf-row:hover {
+          background: rgba(71,255,134,0.04);
+        }
+        .lf-row:hover .lf-accent {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+
+        /* Sliding green left-edge accent */
+        .lf-accent {
+          position: absolute;
+          left: 0; top: 6px; bottom: 6px;
+          width: 2.5px;
+          background: linear-gradient(180deg, #47ff86 0%, rgba(71,255,134,0.3) 100%);
+          border-radius: 0 2px 2px 0;
+          transform: scaleY(0);
+          opacity: 0;
+          transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), opacity 0.22s ease;
+          transform-origin: center;
+        }
+
+        /* Monospace row number */
+        .lf-num {
+          font-size: 10px;
+          font-weight: 800;
+          color: rgba(71,255,134,0.28);
+          font-family: 'SF Mono', 'Courier New', monospace;
+          letter-spacing: 0.04em;
+          flex-shrink: 0;
+          width: 18px;
+          user-select: none;
+          transition: color 0.18s ease;
+        }
+        .lf-row:hover .lf-num {
+          color: rgba(71,255,134,0.55);
+        }
+
+        /* Text block */
+        .lf-info {
+          flex: 1;
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+        .lf-title {
+          font-size: 12.5px;
+          font-weight: 700;
+          color: rgba(255,255,255,0.87);
+          letter-spacing: -0.02em;
+          line-height: 1.2;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .lf-row:hover .lf-title {
+          color: rgba(255,255,255,0.97);
+        }
+        .lf-desc {
+          font-size: 10.5px;
+          color: rgba(255,255,255,0.28);
+          line-height: 1.4;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          transition: color 0.18s ease;
+        }
+        .lf-row:hover .lf-desc {
+          color: rgba(255,255,255,0.42);
+        }
+
+        /* Icon on the right */
+        .lf-ico {
+          width: 34px;
+          height: 34px;
+          border-radius: 9px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          transition: filter 0.18s ease, transform 0.18s ease;
+        }
+        .lf-row:hover .lf-ico {
+          filter: brightness(1.25);
+          transform: scale(1.06);
+        }
+
+        /* Hairline divider */
+        .lf-divider {
+          height: 1px;
+          background: rgba(255,255,255,0.055);
+          margin: 0 16px;
+        }
 
         /* ── Responsive ── */
         @media (max-width: 768px) {
