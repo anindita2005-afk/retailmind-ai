@@ -356,7 +356,7 @@ export default function RegisterForm() {
                 <MessageCircle size={16} className="reg-help-icon" />
                 <div>
                   <span className="reg-help-title">Need help setting up?</span>
-                  <span className="reg-help-sub">Our SME support team is available 24/7. <a href="#">Chat now</a></span>
+                  <span className="reg-help-sub">Our SME support team is available 24/7. <a href="mailto:logiclegends2026@gmail.com?subject=RetailMind%20AI%20Support%20Request" target="_blank" rel="noopener noreferrer">Chat now</a></span>
                 </div>
               </div>
             </div>
@@ -389,7 +389,7 @@ export default function RegisterForm() {
                 <MessageCircle size={16} className="reg-help-icon" />
                 <div>
                   <span className="reg-help-title">Need help setting up?</span>
-                  <span className="reg-help-sub">Our SME support team is available 24/7. <a href="#">Chat now</a></span>
+                  <span className="reg-help-sub">Our SME support team is available 24/7. <a href="mailto:logiclegends2026@gmail.com?subject=RetailMind%20AI%20Support%20Request" target="_blank" rel="noopener noreferrer">Chat now</a></span>
                 </div>
               </div>
             </div>
@@ -455,7 +455,7 @@ export default function RegisterForm() {
                 <MessageCircle size={16} className="reg-help-icon" />
                 <div>
                   <span className="reg-help-title">Need help setting up?</span>
-                  <span className="reg-help-sub">Our SME support team is available 24/7. <a href="#">Chat now</a></span>
+                  <span className="reg-help-sub">Our SME support team is available 24/7. <a href="mailto:logiclegends2026@gmail.com?subject=RetailMind%20AI%20Support%20Request" target="_blank" rel="noopener noreferrer">Chat now</a></span>
                 </div>
               </div>
             </form>
