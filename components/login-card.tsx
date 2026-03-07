@@ -291,7 +291,9 @@ export default function LoginCard() {
 
         {/* Hero text content */}
         <div className="login-hero-content">
-          <div className="login-hero-badge">NEW FEATURE AVAILABLE</div>
+          <div className="login-hero-badge" style={{ color: "#47ff86" }}>
+            RETAILMIND AI
+          </div>
           <h2 className="login-hero-title">
             Predictive<br />
             Inventory<br />

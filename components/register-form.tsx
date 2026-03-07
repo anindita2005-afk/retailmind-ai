@@ -200,13 +200,13 @@ export default function RegisterForm() {
         <div className="reg-left-trust">
           <p className="reg-trust-label">Trusted by businesses using</p>
           <div className="reg-trust-logos">
-            <span className="reg-trust-logo">GoFr</span>
-            <span className="reg-trust-logo">Safoe</span>
+            <span className="reg-trust-logo">Aestix Visions</span>
+            <span className="reg-trust-logo">Acme Retail</span>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="reg-left-footer">© 2024 RetailMind AI Technologies Inc.</div>
+        <div className="reg-left-footer">© 2026 RetailMind AI Technologies Inc.</div>
       </div>
 
       {/* ── Right Panel ── */}

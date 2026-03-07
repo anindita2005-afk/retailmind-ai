@@ -7,7 +7,7 @@ import {
   Send, Bot, User, Loader2, Plus, Trash2, Download,
   MessageSquare, Zap, ShoppingCart, Package, TrendingUp,
   FileText, Users, BarChart2, ChevronRight, Mic, Paperclip,
-  AlertTriangle, Cpu, Copy, Check,
+  AlertTriangle, Cpu, Copy, Check, Pencil, X,
 } from "lucide-react"
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -102,11 +102,19 @@ export default function CopilotPage() {
   const [copied, setCopied] = useState<string | null>(null)
   const [attachedFile, setAttachedFile] = useState<string | null>(null)
   const [isRecording, setIsRecording] = useState(false)
+  // ── Title editing (active session header) ─────────────────────────────────
+  const [isEditingTitle, setIsEditingTitle] = useState(false)
+  const [editTitleValue, setEditTitleValue] = useState("")
+  // ── Sidebar session rename ────────────────────────────────────────────────
+  const [editingSessionId, setEditingSessionId] = useState<string | null>(null)
+  const [editingSessionValue, setEditingSessionValue] = useState("")
 
   const bottomRef = useRef<HTMLDivElement>(null)
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const titleInputRef = useRef<HTMLInputElement>(null)
+  const sidebarInputRef = useRef<HTMLInputElement>(null)
   // Tracks how many type-2 data items we've already processed to avoid
   // re-running on every streaming text chunk (which recreates the array ref)
   const dataLenRef = useRef(0)
@@ -247,6 +255,85 @@ export default function CopilotPage() {
     setTimeout(() => setCopied(null), 1800)
   }
 
+  // ── Title editing helpers ─────────────────────────────────────────────────
+  const startEditTitle = () => {
+    setEditTitleValue(sessionTitle)
+    setIsEditingTitle(true)
+    setTimeout(() => titleInputRef.current?.select(), 50)
+  }
+
+  const commitTitleEdit = async () => {
+    const trimmed = editTitleValue.trim()
+    if (trimmed && trimmed !== sessionTitle) {
+      setSessionTitle(trimmed)
+      // Persist immediately if there are messages
+      if (messages.length) {
+        setSaving(true)
+        try {
+          await fetch(`/api/chat/history`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "save",
+              sessionId,
+              sessionData: {
+                id: sessionId,
+                title: trimmed,
+                messages: messages.map(m => ({
+                  id: m.id, role: m.role, content: m.content,
+                  createdAt: m.createdAt?.toISOString?.() ?? new Date().toISOString(),
+                })),
+                updatedAt: new Date().toISOString(),
+                createdAt: new Date().toISOString(),
+                provider: activeProvider,
+              },
+            }),
+          })
+          await fetchSessions()
+        } finally { setSaving(false) }
+      }
+    }
+    setIsEditingTitle(false)
+  }
+
+  // ── Sidebar rename helpers ─────────────────────────────────────────────────
+  const startSidebarRename = (e: React.MouseEvent, s: SessionMeta) => {
+    e.stopPropagation()
+    setEditingSessionId(s.id)
+    setEditingSessionValue(s.title)
+    setTimeout(() => sidebarInputRef.current?.select(), 50)
+  }
+
+  const commitSidebarRename = async (s: SessionMeta) => {
+    const trimmed = editingSessionValue.trim()
+    setEditingSessionId(null)
+    if (!trimmed || trimmed === s.title) return
+    // Update local list immediately
+    setSessions(prev => prev.map(x => x.id === s.id ? { ...x, title: trimmed } : x))
+    // If it's the active session, update the header title too
+    if (s.id === sessionId) setSessionTitle(trimmed)
+    // Persist
+    try {
+      const r = await fetch(`/api/chat/history`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "get", sessionId: s.id }),
+      })
+      if (!r.ok) return
+      const { session } = await r.json()
+      if (!session) return
+      await fetch(`/api/chat/history`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "save",
+          sessionId: s.id,
+          sessionData: { ...session, title: trimmed, updatedAt: new Date().toISOString() },
+        }),
+      })
+    } catch { /* silent */ }
+  }
+
   // ── File attachment ───────────────────────────────────────────────────────
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -351,19 +438,51 @@ export default function CopilotPage() {
               >
                 <MessageSquare className="w-3 h-3 mt-1 flex-shrink-0" style={{ color: s.id === sessionId ? "#47ff86" : "rgba(148,163,184,0.4)" }} />
                 <div className="flex-1 min-w-0">
-                  <p className="text-[11px] font-medium truncate" style={{ color: s.id === sessionId ? "#e2e8f0" : "rgba(148,163,184,0.7)" }}>{s.title}</p>
+                  {/* Inline sidebar rename */}
+                  {editingSessionId === s.id ? (
+                    <input
+                      ref={sidebarInputRef}
+                      value={editingSessionValue}
+                      onChange={e => setEditingSessionValue(e.target.value)}
+                      onClick={e => e.stopPropagation()}
+                      onBlur={() => commitSidebarRename(s)}
+                      onKeyDown={e => {
+                        e.stopPropagation()
+                        if (e.key === "Enter") { e.preventDefault(); commitSidebarRename(s) }
+                        if (e.key === "Escape") setEditingSessionId(null)
+                      }}
+                      className="text-[11px] font-medium bg-transparent outline-none border-b w-full"
+                      style={{ color: "#e2e8f0", borderColor: "rgba(71,255,134,0.4)" }}
+                      maxLength={60}
+                      autoFocus
+                    />
+                  ) : (
+                    <p className="text-[11px] font-medium truncate" style={{ color: s.id === sessionId ? "#e2e8f0" : "rgba(148,163,184,0.7)" }}>{s.title}</p>
+                  )}
                   <p className="text-[10px] mt-0.5 flex items-center gap-1" style={{ color: "rgba(148,163,184,0.35)" }}>
                     {formatDate(s.updatedAt)}
                     {s.provider && <span>· {s.provider.split(" ")[0]}</span>}
                   </p>
                 </div>
-                <button
-                  onClick={e => deleteSession(e, s.id)}
-                  className="opacity-0 group-hover:opacity-100 p-0.5 rounded transition-all flex-shrink-0"
-                  style={{ color: "#ef4444" }}
-                >
-                  <Trash2 className="w-3 h-3" />
-                </button>
+                {/* Rename + Delete action buttons */}
+                <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-all flex-shrink-0">
+                  <button
+                    onClick={e => startSidebarRename(e, s)}
+                    className="p-0.5 rounded transition-all"
+                    style={{ color: "rgba(71,255,134,0.6)" }}
+                    title="Rename chat"
+                  >
+                    <Pencil className="w-3 h-3" />
+                  </button>
+                  <button
+                    onClick={e => deleteSession(e, s.id)}
+                    className="p-0.5 rounded transition-all"
+                    style={{ color: "#ef4444" }}
+                    title="Delete chat"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+                </div>
               </div>
             ))
           )}
@@ -383,9 +502,43 @@ export default function CopilotPage() {
               <img src="/copilot-logo.png" alt="RetailIQ Copilot" className="w-full h-full object-cover" />
             </div>
             <div>
-              <p className="text-sm font-semibold leading-tight" style={{ color: "#e2e8f0" }}>
-                Active Session: {sessionTitle}
-              </p>
+              {/* ── Inline-editable session title ── */}
+              {isEditingTitle ? (
+                <div className="flex items-center gap-1">
+                  <input
+                    ref={titleInputRef}
+                    value={editTitleValue}
+                    onChange={e => setEditTitleValue(e.target.value)}
+                    onBlur={commitTitleEdit}
+                    onKeyDown={e => {
+                      if (e.key === "Enter") { e.preventDefault(); commitTitleEdit() }
+                      if (e.key === "Escape") setIsEditingTitle(false)
+                    }}
+                    className="text-sm font-semibold bg-transparent outline-none border-b px-0.5"
+                    style={{ color: "#e2e8f0", borderColor: "rgba(71,255,134,0.5)", minWidth: 0, width: `${Math.max(editTitleValue.length, 8)}ch` }}
+                    maxLength={60}
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    onMouseDown={e => { e.preventDefault(); setIsEditingTitle(false) }}
+                    className="p-0.5 rounded hover:opacity-80 transition-opacity flex-shrink-0"
+                    style={{ color: "rgba(148,163,184,0.5)" }}
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5 group/title cursor-pointer" onClick={startEditTitle}>
+                  <p className="text-sm font-semibold leading-tight" style={{ color: "#e2e8f0" }}>
+                    {sessionTitle}
+                  </p>
+                  <Pencil
+                    className="w-3 h-3 opacity-0 group-hover/title:opacity-60 transition-opacity flex-shrink-0"
+                    style={{ color: "#47ff86" }}
+                  />
+                </div>
+              )}
               <div className="flex items-center gap-2 mt-0.5">
                 <span
                   className="text-[10px] font-medium px-1.5 py-0.5 rounded-md"

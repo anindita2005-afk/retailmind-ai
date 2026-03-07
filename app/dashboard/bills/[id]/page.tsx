@@ -100,7 +100,7 @@ export default function BillDetailPage() {
         </div>
 
         {/* Printable invoice wrapper */}
-        <div id="invoice" className="max-w-5xl mx-auto rounded-xl border border-[#1A2623] shadow-2xl overflow-hidden print:shadow-none print:border-0 font-sans" style={{ background: "#0D1513" }}>
+        <div id="invoice" className="mx-auto rounded-xl overflow-hidden font-sans" style={{ background: "#0D1513" }}>
 
           <div className="p-10 pb-12">
             {/* Header Area */}
@@ -232,13 +232,61 @@ export default function BillDetailPage() {
           </div>
         </div>
 
-        <style>{`
-          @media print { 
-            body, main { background: #0A0F0D !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; margin: 0; padding: 0; } 
-            #invoice { background: #0A0F0D !important; color: white !important; border: none !important; box-shadow: none !important; max-width: 100%; border-radius: 0; }
-            ::-webkit-scrollbar { display: none; }
-          }
-        `}</style>
+<style>{`
+@media print {
+
+  body * {
+    visibility: hidden;
+  }
+
+  #invoice, #invoice * {
+    visibility: visible;
+  }
+
+  body {
+    background: white !important;
+    margin: 0;
+  }
+
+  #invoice {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 794px;
+    min-height: 1123px;
+    margin: auto;
+    background: white !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Force all text to black */
+  #invoice * {
+    color: black !important;
+  }
+
+  /* Remove green backgrounds */
+  #invoice span,
+  #invoice div {
+    background: transparent !important;
+  }
+
+  table {
+    page-break-inside: avoid;
+  }
+
+  footer {
+    page-break-inside: avoid;
+  }
+
+  @page {
+    size: A4;
+    margin: 20mm;
+  }
+
+}
+`}</style>
+
       </main>
     </>
   )
